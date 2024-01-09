@@ -8,6 +8,7 @@
   </head>
   <body>
     <h1>Add Birthday</h1>
+    <div id="response"></div>
     <form id="birthday-form">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required /><br />
@@ -23,6 +24,7 @@
   </body>
   <script>
     const form = document.getElementById("birthday-form");
+    let responseDiv = document.getElementById("response");
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const formData = new FormData(form);
@@ -33,7 +35,18 @@
       console.log(formDataObject);
       try {
         const response = await axios.post("/add-birthday", formDataObject);
-      } catch (error) {}
+        if (response.status === 201) {
+          const responseMsg = document.createElement("p");
+          responseMsg.textContent = response.data.msg;
+          responseDiv.appendChild(responseMsg);
+        } else {
+          const responseMsg = document.createElement("p");
+          responseMsg.textContent = response.data.msg;
+          responseDiv.appendChild(responseMsg);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     });
   </script>
 </html>
